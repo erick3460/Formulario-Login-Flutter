@@ -10,9 +10,58 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CadastroPage(),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF00897B)),
+        scaffoldBackgroundColor: const Color(0xFFF2FAF9),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFFF2FAF9),
+          foregroundColor: Color(0xFF164E49),
+          centerTitle: true,
+          elevation: 0,
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 18,
+          ),
+          prefixIconColor: const Color(0xFF00897B),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(color: Color(0xFFD2E6E2)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(color: Color(0xFF00897B), width: 2),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF00897B),
+            foregroundColor: Colors.white,
+            minimumSize: const Size.fromHeight(56),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            textStyle: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1,
+            ),
+          ),
+        ),
+        snackBarTheme: const SnackBarThemeData(
+          backgroundColor: Color(0xFF164E49),
+          behavior: SnackBarBehavior.floating,
+        ),
+      ),
+      home: const CadastroPage(),
     );
   }
 }
@@ -51,12 +100,46 @@ class _CadastroPageState extends State<CadastroPage> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD9F3EF),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: const Icon(
+                    Icons.person_add_alt_1_rounded,
+                    size: 40,
+                    color: Color(0xFF00897B),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Crie sua conta',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xFF164E49),
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Preencha seus dados para se cadastrar.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 15, color: Color(0xFF5B7773)),
+              ),
+              const SizedBox(height: 32),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Nome completo'),
+                decoration: const InputDecoration(
+                  labelText: 'Nome completo',
+                  prefixIcon: Icon(Icons.person_outline_rounded),
+                ),
                 keyboardType: TextInputType.name,
                 textCapitalization: TextCapitalization.words,
                 validator: _validarObrigatorio,
@@ -64,7 +147,10 @@ class _CadastroPageState extends State<CadastroPage> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'E-mail'),
+                decoration: const InputDecoration(
+                  labelText: 'E-mail',
+                  prefixIcon: Icon(Icons.mail_outline_rounded),
+                ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (valor) {
                   final erro = _validarObrigatorio(valor);
@@ -78,7 +164,10 @@ class _CadastroPageState extends State<CadastroPage> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'CPF'),
+                decoration: const InputDecoration(
+                  labelText: 'CPF',
+                  prefixIcon: Icon(Icons.badge_outlined),
+                ),
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: _validarObrigatorio,
@@ -86,7 +175,10 @@ class _CadastroPageState extends State<CadastroPage> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Telefone'),
+                decoration: const InputDecoration(
+                  labelText: 'Telefone',
+                  prefixIcon: Icon(Icons.phone_outlined),
+                ),
                 keyboardType: TextInputType.phone,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 validator: _validarObrigatorio,
@@ -94,7 +186,10 @@ class _CadastroPageState extends State<CadastroPage> {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Senha'),
+                decoration: const InputDecoration(
+                  labelText: 'Senha',
+                  prefixIcon: Icon(Icons.lock_outline_rounded),
+                ),
                 keyboardType: TextInputType.visiblePassword,
                 obscureText: true,
                 autocorrect: false,
@@ -110,9 +205,10 @@ class _CadastroPageState extends State<CadastroPage> {
                 onSaved: (valor) => _dados['senha'] = valor!,
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: _cadastrar,
-                child: const Text('CADASTRAR'),
+                icon: const Icon(Icons.check_circle_outline_rounded),
+                label: const Text('CADASTRAR'),
               ),
             ],
           ),
